@@ -1,5 +1,5 @@
 package com.example.activities.model;
-
+import java.time.Instant;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 
@@ -18,6 +18,11 @@ public class Activity {
 
     @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = Timestamp.from(Instant.now());
+    }
 
     // Getters et setters
     public Long getId() { return id; }
