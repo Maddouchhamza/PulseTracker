@@ -1,60 +1,128 @@
-package com.example.objectives.kafka;
-
-import com.example.objectives.config.KafkaConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import com.example.objectives.repository.ObjectiveRepository;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
+package com.example.objectives.consumer;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.annotation.Resource;
-import jakarta.enterprise.concurrent.ManagedExecutorService;
+import jakarta.ejb.Schedule;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.Startup;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.objectives.config.KafkaConfig;
+import com.example.objectives.model.Objective;
+import com.example.shared.ActivityEvent;
 
 import java.time.Duration;
 import java.util.Collections;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.List;
 
-@ApplicationScoped
+@Singleton
+@Startup
 public class KafkaConsumerService {
 
-    @Inject
-    private KafkaConfig kafkaConfig;
+    @PersistenceContext(unitName = "objectivesPU")
+    private EntityManager entityManager;
 
-    @Inject
-    private ObjectiveRepository repository; // si besoin
-
-    @Resource(name = "DefaultManagedExecutorService")
-    ManagedExecutorService executor;
-
-    private AtomicBoolean running = new AtomicBoolean(false);
     private KafkaConsumer<String, String> consumer;
+    private ObjectMapper objectMapper;
 
+    /**
+     * Initialisation du consumer Kafka (appelée au démarrage du conteneur).
+     */
     @PostConstruct
     public void init() {
+        // Configuration du KafkaConsumer
+        KafkaConfig kafkaConfig = new KafkaConfig();
         consumer = new KafkaConsumer<>(kafkaConfig.consumerProperties());
-        consumer.subscribe(Collections.singletonList("objectives-events"));
+        // On s’abonne au topic
+        consumer.subscribe(Collections.singletonList("activities-events"));
 
-        running.set(true);
-        executor.execute(() -> {
-            while (running.get()) {
-                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
-                for (ConsumerRecord<String, String> record : records) {
-                    // Appel EJB/JPA (ex: repository.save(...)) possible ici
-                    System.out.println("Consumed: " + record.value());
-                }
-            }
-        });
+        // Instancier l’ObjectMapper (pour désérialiser les JSON)
+        objectMapper = new ObjectMapper();
     }
 
+    /**
+     * Méthode planifiée, exécutée par GlassFish toutes les 20 secondes.
+     * - L’EntityManager est accessible (thread conteneur).
+     * - On récupère et on traite les messages Kafka.
+     */
+    @Schedule(hour = "*", minute = "*", second = "*/20", persistent = false)
+    @Transactional
+    public void pollKafka() {
+        try {
+            // On attend jusqu’à 20 secondes pour obtenir des messages
+            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(20000));
+            
+            if (records.isEmpty()) {
+                System.out.println("Aucun message Kafka, on réessaiera plus tard...");
+                return;
+            }
+
+            for (ConsumerRecord<String, String> record : records) {
+                System.out.println("Received event: Key=" + record.key() + ", Value=" + record.value());
+                processEvent(record.value());
+            }
+
+            // Optionnel: valider l’offset automatiquement
+            consumer.commitAsync();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Traiter un message JSON (désérialisation + mise à jour des objectifs).
+     */
+    private void processEvent(String eventJson) {
+        try {
+            System.out.println("Processing event JSON: " + eventJson);
+            ActivityEvent event = objectMapper.readValue(eventJson, ActivityEvent.class);
+            System.out.println("Deserialized event: " + event);
+
+            updateObjectives("distance", event.getDistance());
+            updateObjectives("duration", event.getDuration());
+            updateObjectives("calories", event.getCalories());
+        } catch (Exception e) {
+            System.err.println("Error processing event: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Mettre à jour les objectifs correspondants (colonne `goalType` = distance/duration/calories, etc.).
+     */
+    private void updateObjectives(String goalType, double valueToAdd) {
+        if (valueToAdd <= 0) return;
+
+        // Chargement des objectifs correspondants
+        List<Objective> objectives = entityManager.createQuery(
+                "SELECT o FROM Objective o WHERE o.goalType = :goalType", Objective.class)
+                .setParameter("goalType", goalType)
+                .getResultList();
+
+        // Mise à jour de la valeur courante
+        for (Objective objective : objectives) {
+            objective.setCurrentValue(objective.getCurrentValue() + valueToAdd);
+            if (objective.getCurrentValue() >= objective.getTargetValue()) {
+                objective.setStatus("completed");
+            }
+            entityManager.merge(objective);
+        }
+    }
+
+    /**
+     * Fermeture propre du consumer lorsque le conteneur se termine ou redéploie.
+     */
     @PreDestroy
-    public void shutdown() {
-        running.set(false);
-        consumer.wakeup();  // Interrompt le poll bloquant
-        consumer.close();
-        System.out.println("KafkaConsumerService stopped.");
+    public void cleanup() {
+        if (consumer != null) {
+            consumer.close();
+        }
     }
 }
-

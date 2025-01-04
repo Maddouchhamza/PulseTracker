@@ -34,6 +34,43 @@
         <artifactId>kafka-clients</artifactId>
         <version>3.9.0</version>
     </dependency>
+
+    <!-- SLF4J et Logback pour le logging (optionnel mais recommandé) -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>2.0.9</version>
+    </dependency>
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.4.11</version>
+    </dependency>
+
+    <!-- Shared-models -->
+    <dependency>
+        <groupId>com.example.shared</groupId>
+        <artifactId>shared-models</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.15.2</version> <!-- Utilisez la dernière version stable compatible -->
+    </dependency>
+    
+    <!-- Optionnel : Dépendances supplémentaires de Jackson si nécessaire -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.15.2</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>2.15.2</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>objectives-service</finalName>

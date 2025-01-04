@@ -3,6 +3,7 @@ package com.example.activities.rest;
 import com.example.activities.kafka.KafkaProducerService;
 import com.example.activities.model.Activity;
 import com.example.activities.repository.ActivityRepository;
+import com.example.shared.ActivityEvent;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
@@ -22,8 +23,20 @@ public class ActivityResource {
 
     @POST
     public Response create(Activity activity) {
-        repository.save(activity);
-   	kafkaProducerService.sendMessage("activities-events", null, "New activity created: " + activity.toString());
+        // Sauvegarder l'activité dans la base de données
+        repository.save(activity);     
+
+        // Créer un événement pour Kafka
+        ActivityEvent event = new ActivityEvent(
+            activity.getType(), 
+            activity.getDistance(),
+            activity.getDuration(), 
+            activity.getCalories()
+        );
+
+        // Envoyer l'événement à Kafka
+        kafkaProducerService.sendActivityEvent("activities-events", event);
+
         return Response.status(Response.Status.CREATED).entity(activity).build();
     }
 

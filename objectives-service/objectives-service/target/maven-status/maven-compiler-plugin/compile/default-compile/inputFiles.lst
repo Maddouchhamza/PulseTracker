@@ -1,7 +1,7 @@
-/home/insa/projet/objectives-service/objectives-service/src/main/java/com/example/objectives/rest/ObjectiveResource.java
-/home/insa/projet/objectives-service/objectives-service/src/main/java/com/example/objectives/config/KafkaConfig.java
-/home/insa/projet/objectives-service/objectives-service/src/main/java/com/example/objectives/model/Objective.java
-/home/insa/projet/objectives-service/objectives-service/src/main/java/com/example/objectives/service/ObjectiveService.java
-/home/insa/projet/objectives-service/objectives-service/src/main/java/com/example/objectives/kafka/KafkaProducerService.java
-/home/insa/projet/objectives-service/objectives-service/src/main/java/com/example/objectives/kafka/KafkaConsumerService.java
-/home/insa/projet/objectives-service/objectives-service/src/main/java/com/example/objectives/repository/ObjectiveRepository.java
+/home/insa/CASI/PulseTracker/objectives-service/objectives-service/src/main/java/com/example/objectives/rest/ObjectiveResource.java
+/home/insa/CASI/PulseTracker/objectives-service/objectives-service/src/main/java/com/example/objectives/service/ObjectiveService.java
+/home/insa/CASI/PulseTracker/objectives-service/objectives-service/src/main/java/com/example/objectives/config/KafkaConfig.java
+/home/insa/CASI/PulseTracker/objectives-service/objectives-service/src/main/java/com/example/objectives/kafka/KafkaProducerService.java
+/home/insa/CASI/PulseTracker/objectives-service/objectives-service/src/main/java/com/example/objectives/kafka/KafkaConsumerService.java
+/home/insa/CASI/PulseTracker/objectives-service/objectives-service/src/main/java/com/example/objectives/model/Objective.java
+/home/insa/CASI/PulseTracker/objectives-service/objectives-service/src/main/java/com/example/objectives/repository/ObjectiveRepository.java

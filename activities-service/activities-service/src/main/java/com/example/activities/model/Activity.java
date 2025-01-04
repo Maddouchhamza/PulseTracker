@@ -12,9 +12,9 @@ public class Activity {
     private Long id;
 
     private String type;
-    private int duration; // en minutes
-    private Float distance; // en kilomètres
-    private Float calories;
+    private double duration; // en minutes
+    private double distance; // en kilomètres
+    private double calories;
 
     @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
@@ -29,12 +29,12 @@ public class Activity {
     public void setId(Long id) { this.id = id; }
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
-    public int getDuration() { return duration; }
-    public void setDuration(int duration) { this.duration = duration; }
-    public Float getDistance() { return distance; }
-    public void setDistance(Float distance) { this.distance = distance; }
-    public Float getCalories() { return calories; }
-    public void setCalories(Float calories) { this.calories = calories; }
+    public double getDuration() { return duration; }
+    public void setDuration(double duration) { this.duration = duration; }
+    public double getDistance() { return distance; }
+    public void setDistance(double distance) { this.distance = distance; }
+    public double getCalories() { return calories; }
+    public void setCalories(double calories) { this.calories = calories; }
     public Timestamp getCreatedAt() { return createdAt; }
 }
 
