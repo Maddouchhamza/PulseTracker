@@ -22,6 +22,9 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 @Singleton
 @Startup
 public class KafkaConsumerService {
@@ -102,16 +105,21 @@ public class KafkaConsumerService {
 
         // Chargement des objectifs correspondants
         List<Objective> objectives = entityManager.createQuery(
-                "SELECT o FROM Objective o WHERE o.goalType = :goalType", Objective.class)
+                "SELECT o FROM Objective o WHERE o.goalType = :goalType AND o.status = :status", Objective.class)
                 .setParameter("goalType", goalType)
+                .setParameter("status", "IN_PROGRESS")
                 .getResultList();
 
         // Mise à jour de la valeur courante
         for (Objective objective : objectives) {
             objective.setCurrentValue(objective.getCurrentValue() + valueToAdd);
+
+            // Si la valeur courante atteint ou dépasse la cible, on marque l'objectif comme terminé
             if (objective.getCurrentValue() >= objective.getTargetValue()) {
-                objective.setStatus("completed");
+                objective.setStatus("COMPLETED");
+                objective.setEndDate(Timestamp.from(Instant.now())); // Mise à jour de la date de fin
             }
+            
             entityManager.merge(objective);
         }
     }

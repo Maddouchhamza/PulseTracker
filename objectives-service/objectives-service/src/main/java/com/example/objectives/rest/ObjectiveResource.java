@@ -63,10 +63,6 @@ public class ObjectiveResource {
 
         existingObjective.setGoalType(updatedObjective.getGoalType());
         existingObjective.setTargetValue(updatedObjective.getTargetValue());
-        existingObjective.setCurrentValue(updatedObjective.getCurrentValue());
-        existingObjective.setStartDate(updatedObjective.getStartDate());
-        existingObjective.setEndDate(updatedObjective.getEndDate());
-        existingObjective.setStatus(updatedObjective.getStatus());
 
         objectiveRepository.update(existingObjective);
 

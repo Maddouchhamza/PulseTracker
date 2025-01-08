@@ -1,7 +1,8 @@
 package com.example.objectives.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Table(name = "objectives")
@@ -20,14 +21,22 @@ public class Objective {
     @Column(name = "current_value", nullable = false)
     private Double currentValue;
 
-    @Column(name = "start_date", nullable = false)
-    private LocalDateTime startDate;
+    @Column(name = "start_date", nullable = false, updatable = false)
+    private Timestamp startDate;
 
-    @Column(name = "end_date", nullable = false)
-    private LocalDateTime endDate;
+    @Column(name = "end_date", nullable = true)
+    private Timestamp endDate;
 
     @Column(name = "status", nullable = false, length=20)
     private String status;
+    
+    @PrePersist
+    protected void onCreate() {
+        this.startDate = Timestamp.from(Instant.now());
+        this.status = "IN_PROGRESS";
+        this.currentValue = 0.0 ;
+
+    }
 
     // Getters and Setters
 
@@ -39,9 +48,9 @@ public class Objective {
 
     public Double getCurrentValue() { return currentValue; }
 
-    public LocalDateTime getStartDate() { return startDate; }
+    public Timestamp getStartDate() { return startDate; }
 
-    public LocalDateTime getEndDate() { return endDate; }
+    public Timestamp getEndDate() { return endDate; }
 
     public String getStatus() { return status; }
 
@@ -53,9 +62,9 @@ public class Objective {
 
     public void setCurrentValue(Double newCurrentValue) { this.currentValue = newCurrentValue; }
 
-    public void setStartDate(LocalDateTime newStartDate) { this.startDate = newStartDate; }
+    public void setStartDate(Timestamp newStartDate) { this.startDate = newStartDate; }
 
-    public void setEndDate(LocalDateTime newEndDate) { this.endDate = newEndDate; }
+    public void setEndDate(Timestamp newEndDate) { this.endDate = newEndDate; }
 
     public void setStatus(String newStatus) { this.status = newStatus; }
 }
