@@ -1,0 +1,20 @@
+@startuml SequenceServiceStatistiques
+
+actor "Utilisateur" as User
+participant "Front-End" as FE
+participant "Service Statistiques" as SStats
+database "Base Activités" as DBAct
+database "Base Objectifs" as DBObj
+database "Base Statistiques" as DBStats
+
+User -> FE : POST /statistics
+FE -> SStats : Requête REST
+SStats -> DBAct : Récupérer les activités
+DBAct --> SStats : Activités
+SStats -> DBObj : Récupérer les objectifs
+DBObj --> SStats : Objectifs
+SStats -> DBStats : Sauvegarde des statistiques
+DBStats --> SStats : Succès
+SStats --> FE : Réponse (201 Created)
+
+@enduml

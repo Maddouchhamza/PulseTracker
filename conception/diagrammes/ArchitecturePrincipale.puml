@@ -1,0 +1,58 @@
+@startuml ArchitecturePrincipale
+
+' Style
+skinparam rectangle {
+  BackgroundColor #f8f9fa
+  BorderColor #d3d3d3
+  FontStyle bold
+}
+skinparam actorStyle awesome
+skinparam arrowThickness 1.5
+skinparam linetype ortho
+
+actor "Utilisateur (Mobile/Web)" as User
+
+' Front-End
+rectangle "Front-End (Mobile/Web)" as FE
+
+' Microservices
+rectangle "Service Activités" as SAct
+rectangle "Service Objectifs" as SObj
+rectangle "Service Statistiques" as SStats
+rectangle "Service Notifications" as SNot
+
+' Bases de données
+database "Base Activités (PostgreSQL)" as DBAct
+database "Base Objectifs (PostgreSQL)" as DBObj
+database "Base Statistiques (PostgreSQL)" as DBStats
+
+' Bus de messages
+queue "Kafka (Bus d'événements)" as Kafka
+
+' Interactions utilisateur avec le front-end
+User --> FE : Interaction (REST/JSON)
+
+' Interactions front-end avec les services
+FE --> SAct : Gestion des Activités
+FE --> SObj : Gestion des Objectifs
+FE --> SStats : Consultation des Statistiques
+
+' Interactions entre les services
+SAct --> SStats : Partage d'activités
+SObj --> SStats : Partage d'objectifs
+
+' Interactions avec les bases de données
+SAct --> DBAct : Lecture/Écriture
+SObj --> DBObj : Lecture/Écriture
+SStats --> DBStats : Lecture/Écriture
+
+' Kafka pour les événements
+SAct -> Kafka : Événements d'activités
+SObj -> Kafka : Événements d'objectifs
+Kafka --> SNot : Objectifs complétés
+
+' Notifications basées sur la base d'objectifs
+SNot --> DBObj : Vérification des objectifs atteints
+SNot --> User : Notifications (push ou affichage front-end)
+
+@enduml

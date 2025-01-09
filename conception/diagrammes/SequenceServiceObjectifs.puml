@@ -1,0 +1,22 @@
+@startuml SequenceServiceObjectifs
+
+actor "Utilisateur" as User
+participant "Front-End" as FE
+participant "Service Objectifs" as SObj
+database "Base Objectifs" as DBObj
+queue "Kafka (Bus d'événements)" as Kafka
+
+User -> FE : POST /objectives
+FE -> SObj : Requête REST
+SObj -> DBObj : Sauvegarde de l'objectif
+DBObj --> SObj : Succès
+SObj -> Kafka : Publier ObjectiveEvent
+Kafka --> SObj : Accusé de réception
+SObj --> FE : Réponse (201 Created)
+
+Kafka -> SObj : ActivityEvent (consommé depuis `activities-events`)
+SObj -> DBObj : Mettre à jour les objectifs associés
+DBObj --> SObj : Succès
+SObj -> Kafka : Publier mise à jour (facultatif)
+
+@enduml

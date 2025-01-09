@@ -1,0 +1,17 @@
+@startuml SequenceServiceActivites
+
+actor "Utilisateur" as User
+participant "Front-End" as FE
+participant "Service Activités" as SAct
+database "Base Activités" as DBAct
+queue "Kafka (Bus d'événements)" as Kafka
+
+User -> FE : POST /activities
+FE -> SAct : Requête REST
+SAct -> DBAct : Sauvegarde de l'activité
+DBAct --> SAct : Succès
+SAct -> Kafka : Publier ActivityEvent
+Kafka --> SAct : Accusé de réception
+SAct --> FE : Réponse (201 Created)
+
+@enduml

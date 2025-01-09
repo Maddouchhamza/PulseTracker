@@ -1,0 +1,13 @@
+@startuml SequenceServiceNotifications
+
+queue "Kafka (Bus d'événements)" as Kafka
+participant "Service Notifications" as SNot
+database "Base Objectifs" as DBObj
+actor "Utilisateur" as User
+
+Kafka -> SNot : ObjectiveEvent (objectif complété)
+SNot -> DBObj : Vérification des objectifs atteints
+DBObj --> SNot : Objectifs complétés
+SNot -> User : Notification push ou affichage front-end
+
+@enduml
