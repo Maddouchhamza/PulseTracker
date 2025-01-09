@@ -5,3 +5,4 @@
 /home/insa/CASI/PulseTracker/objectives-service/objectives-service/src/main/java/com/example/objectives/kafka/KafkaConsumerService.java
 /home/insa/CASI/PulseTracker/objectives-service/objectives-service/src/main/java/com/example/objectives/model/Objective.java
 /home/insa/CASI/PulseTracker/objectives-service/objectives-service/src/main/java/com/example/objectives/repository/ObjectiveRepository.java
+/home/insa/CASI/PulseTracker/objectives-service/objectives-service/src/main/java/com/example/objectives/config/CORSFilter.java

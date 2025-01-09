@@ -3,4 +3,5 @@ com/example/activities/kafka/KafkaProducerService.class
 com/example/activities/kafka/KafkaConsumerService.class
 com/example/activities/rest/ActivityResource.class
 com/example/activities/model/Activity.class
+com/example/activities/config/CORSFilter.class
 com/example/activities/config/KafkaConfig.class

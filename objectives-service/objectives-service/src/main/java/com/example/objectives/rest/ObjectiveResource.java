@@ -60,7 +60,6 @@ public class ObjectiveResource {
         if (existingObjective == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-
         existingObjective.setGoalType(updatedObjective.getGoalType());
         existingObjective.setTargetValue(updatedObjective.getTargetValue());
 

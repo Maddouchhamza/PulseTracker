@@ -21,4 +21,12 @@
         <url-pattern>/activities/*</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>CORSFilter</filter-name>
+        <filter-class>com.example.activities.config.CORSFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CORSFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

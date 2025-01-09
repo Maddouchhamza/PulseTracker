@@ -24,5 +24,14 @@ public class ActivityRepository {
         return entityManager.createQuery("SELECT a FROM Activity a", Activity.class)
                             .getResultList();
     }
+
+    public boolean delete(Long id) {
+        Activity activity = entityManager.find(Activity.class, id);
+        if (activity != null) {
+            entityManager.remove(activity);
+            return true;
+        }
+        return false;
+    }
 }
 

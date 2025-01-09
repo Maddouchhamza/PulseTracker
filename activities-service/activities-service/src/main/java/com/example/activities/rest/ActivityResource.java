@@ -55,5 +55,36 @@ public class ActivityResource {
         List<Activity> activities = repository.findAll();
         return Response.ok(activities).build();
     }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteActivity(@PathParam("id") Long id) {
+        try {
+            boolean deleted = repository.delete(id);
+            if (deleted) {
+                return Response.noContent().build(); // 204 No Content
+            } else {
+                return Response.status(Response.Status.NOT_FOUND)
+                               .entity("Activité non trouvée avec l'ID : " + id)
+                               .build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Erreur lors de la suppression de l'activité.")
+                           .build();
+        }
+    }
+
+    // Méthode pour gérer les requêtes OPTIONS
+    @OPTIONS
+    @Path("{path:.*}")
+    public Response handleOptions() {
+        return Response.ok()
+                .header("Access-Control-Allow-Origin", "http://localhost:8000")
+                .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+                .header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+                .build();
+    }
 }
 
