@@ -182,6 +182,22 @@ tr:nth-child(even) {
 #statisticsTable th, #statisticsTable td {
   text-align: center;
 }
+
+/* Styles pour les notifications */
+#notificationsList p {
+  font-size: 16px;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-left: 5px solid #4caf50; /* Bande verte à gauche */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#notificationsList p:before {
+  content: '🔔'; /* Icône de notification */
+  margin-right: 10px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .navbar-menu {
