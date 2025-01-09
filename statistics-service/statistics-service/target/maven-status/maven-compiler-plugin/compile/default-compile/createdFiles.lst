@@ -5,6 +5,7 @@ com/example/statistics/client/ObjectivesClient.class
 com/example/statistics/client/ActivitiesClient.class
 com/example/statistics/client/ObjectivesClient$1.class
 com/example/statistics/model/Activity.class
+com/example/statistics/config/CORSFilter.class
 com/example/statistics/service/StatisticsService.class
 com/example/statistics/model/Objective.class
 com/example/statistics/repository/StatisticsRepository.class

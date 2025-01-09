@@ -1,102 +1,24 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>PulseTracker</title>
+  <title>PulseTracker - Accueil</title>
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <!-- Lien vers le fichier CSS -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <h1>PulseTracker</h1>
+  <!-- Conteneur pour la barre de navigation -->
+  <div id="navbar"></div>
 
-  <!-- Section Activités -->
-  <section>
-    <h2>Liste des Activités</h2>
-    <button class="btn" onclick="loadActivities()">Charger les Activités</button>
-    <button class="btn" onclick="showCreateActivityForm()">Créer une Activité</button>
-    <p id="activitiesError" class="error"></p>
-    <table id="activitiesTable">
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Distance (km)</th>
-          <th>Duration (min)</th>
-          <th>Calories (kcal)</th>
+  <main>
+    <h1>Bienvenue sur PulseTracker</h1>
+    <p>Votre application de suivi d'activités et d'objectifs</p>
+    <p>Coded by <a href="https://github.com/Maddouchhamza">Maddouch Hamza</a></p>
+  </main>
 
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Les lignes seront insérées ici via JS -->
-      </tbody>
-    </table>
-
-    <!-- Formulaire de création d'activité -->
-    <div id="createActivityForm" class="form-container" style="display:none;">
-      <h3>Créer une Nouvelle Activité</h3>
-      <form onsubmit="createActivity(event)">
-        <label for="activityName">Nom de l'activité</label>
-        <input type="text" id="activityName" name="activityName" required><br>
-
-        <label for="activityDistance">Distance (km)</label>
-        <input type="number" id="activityDistance" name="activityDistance" required><br>
-
-        <label for="activityDuration">Durée (min)</label>
-        <input type="number" id="activityDuration" name="activityDuration" required><br>
-
-        <label for="activityCalories">Calories (kcal)</label>
-        <input type="number" id="activityCalories" name="activityCalories" required><br>
-
-        <button type="submit" class="btn">Créer</button>
-        <button type="button" class="btn" onclick="hideCreateActivityForm()">Annuler</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Section Objectifs -->
-  <section>
-    <h2>Liste des Objectifs</h2>
-    <button class="btn" onclick="loadObjectives()">Charger les Objectifs</button>
-    <button class="btn" onclick="showCreateObjectiveForm()">Créer un Objectif</button>
-    <p id="objectivesError" class="error"></p>
-    <table id="objectivesTable">
-      <thead>
-        <tr>
-          <th>Goal Type</th>
-          <th>Start Date</th>
-          <th>Current Value</th>
-          <th>Target Value</th>
-          <th>End Date</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Les lignes seront insérées ici via JS -->
-      </tbody>
-    </table>
-
-    <!-- Formulaire de création d'objectif -->
-    <div id="createObjectiveForm" class="form-container" style="display:none;">
-      <h3>Créer un Nouvel Objectif</h3>
-      <form onsubmit="createObjective(event)">
-        <label for="objectiveGoalType">Type de Goal</label>
-        <select id="objectiveGoalType" name="objectiveGoalType" required>
-            <option value="" disabled selected>-- Sélectionnez un type --</option>
-            <option value="duration">Duration</option>
-            <option value="calories">Calories</option>
-            <option value="distance">Distance</option>
-        </select><br>
-        
-        <label for="objectiveTargetValue">Valeur Cible</label>
-        <input type="number" id="objectiveTargetValue" name="objectiveTargetValue" required><br>
-
-        <button type="submit" class="btn">Créer</button>
-        <button type="button" class="btn" onclick="hideCreateObjectiveForm()">Annuler</button>
-      </form>
-    </div>
-  </section>
-
+  <script src="js/main.js"></script>
 </body>
-<script src="js/app.js"></script>
 </html>

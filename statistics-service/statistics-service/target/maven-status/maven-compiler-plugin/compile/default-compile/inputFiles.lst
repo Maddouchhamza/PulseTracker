@@ -1,3 +1,4 @@
+/home/insa/CASI/PulseTracker/statistics-service/statistics-service/src/main/java/com/example/statistics/config/CORSFilter.java
 /home/insa/CASI/PulseTracker/statistics-service/statistics-service/src/main/java/com/example/statistics/rest/StatisticsResource.java
 /home/insa/CASI/PulseTracker/statistics-service/statistics-service/src/main/java/com/example/statistics/model/Objective.java
 /home/insa/CASI/PulseTracker/statistics-service/statistics-service/src/main/java/com/example/statistics/repository/ActivityRepository.java

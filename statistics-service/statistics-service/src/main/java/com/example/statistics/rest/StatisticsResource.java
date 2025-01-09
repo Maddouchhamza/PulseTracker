@@ -41,6 +41,17 @@ public class StatisticsResource {
                            .build();
         }
     }
+
+    // Méthode pour gérer les requêtes OPTIONS
+    @OPTIONS
+    @Path("{path:.*}")
+    public Response handleOptions() {
+        return Response.ok()
+                .header("Access-Control-Allow-Origin", "http://localhost:8000")
+                .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+                .header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+                .build();
+    }
 }
 
 
