@@ -1,8 +1,0 @@
-com/example/objectives/repository/ObjectiveRepository.class
-com/example/objectives/consumer/KafkaConsumerService.class
-com/example/objectives/model/Objective.class
-com/example/objectives/rest/ObjectiveResource.class
-com/example/objectives/service/ObjectiveService.class
-com/example/objectives/kafka/KafkaProducerService.class
-com/example/objectives/config/CORSFilter.class
-com/example/objectives/config/KafkaConfig.class

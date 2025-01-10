@@ -1,7 +1,0 @@
-/home/insa/CASI/PulseTracker/activities-service/activities-service/src/main/java/com/example/activities/rest/ActivityResource.java
-/home/insa/CASI/PulseTracker/activities-service/activities-service/src/main/java/com/example/activities/kafka/KafkaProducerService.java
-/home/insa/CASI/PulseTracker/activities-service/activities-service/src/main/java/com/example/activities/kafka/KafkaConsumerService.java
-/home/insa/CASI/PulseTracker/activities-service/activities-service/src/main/java/com/example/activities/model/Activity.java
-/home/insa/CASI/PulseTracker/activities-service/activities-service/src/main/java/com/example/activities/config/CORSFilter.java
-/home/insa/CASI/PulseTracker/activities-service/activities-service/src/main/java/com/example/activities/repository/ActivityRepository.java
-/home/insa/CASI/PulseTracker/activities-service/activities-service/src/main/java/com/example/activities/config/KafkaConfig.java
